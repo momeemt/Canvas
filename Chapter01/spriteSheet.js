@@ -40,7 +40,11 @@ const drawGuidelines = (x, y) => {
 }
 
 const updateReadout = (x, y) => {
-  readout.innerHTML = `(${x.toFixed(0)}, ${y.toFixed(0)})`
+  if (x.toFixed(0) === y.toFixed(0)) {
+    readout.innerHTML = `(${x.toFixed(0)}, ${y.toFixed(0)}) same number! cool!`
+  } else {
+    readout.innerHTML = `(${x.toFixed(0)}, ${y.toFixed(0)})`
+  }
 }
 
 const drawHorizontalLine = (y) => {
@@ -64,6 +68,11 @@ canvas.onmousemove = (e) => {
   drawSpritesheet()
   drawGuidelines(loc.x, loc.y)
   updateReadout(loc.x, loc.y)
+}
+
+canvas.onclick = (e) => {
+  const loc = windowToCanvas(canvas, e.clientX, e.clientY)
+  readout.innerHTML = `(click to ${loc.x.toFixed(0)}, ${loc.y.toFixed(0)})!`
 }
 
 spritesheet.src = '../assets/running-sprite-sheet.png'
