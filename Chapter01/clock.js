@@ -1,12 +1,15 @@
-const canvas = document.getElementById('canvas'),
-      context = canvas.getContext('2d'),
-      FONT_HEIGHT = 15,
-      MARGIN = 35,
-      HAND_TRUNCATION = canvas.width / 25,
-      HOUR_HAND_TRUNCATION = canvas.width / 10,
-      NUMERAL_SPACING = 20,
-      RADIUS = canvas.width / 2 - MARGIN,
-      HAND_RADIUS = RADIUS + NUMERAL_SPACING
+const canvas = document.getElementById('canvas')
+const context = canvas.getContext('2d')
+const snapshotButton = document.getElementById('snapshotButton')
+const snapshotImageElement = document.getElementById('snapshotImageElement')
+const FONT_HEIGHT = 15
+const MARGIN = 35
+const HAND_TRUNCATION = canvas.width / 25
+const HOUR_HAND_TRUNCATION = canvas.width / 10
+const NUMERAL_SPACING = 20
+const RADIUS = canvas.width / 2 - MARGIN
+const HAND_RADIUS = RADIUS + NUMERAL_SPACING
+let loop
 
 const drawCircle = () => {
   context.beginPath()
@@ -59,6 +62,23 @@ const drawClock = () => {
   drawCenter()
   drawHands()
   drawNumerals()
+}
+
+snapshotButton.onclick = (e) => {
+  let dataUrl
+  if (snapshotButton.value === 'Take snapshot') {
+    dataUrl = canvas.toDataURL()
+    clearInterval(loop)
+    snapshotImageElement.src = dataUrl
+    snapshotImageElement.style.display = 'inline'
+    canvas.style.display = 'none'
+    snapshotButton.value = 'Return to Canvas'
+  } else {
+    snapshotButton.value = 'Take snapshot'
+    canvas.style.display = 'inline'
+    snapshotImageElement.style.display = 'none'
+    loop = setInterval(drawClock, 1000)
+  }
 }
 
 context.font = FONT_HEIGHT + 'px Arial'
