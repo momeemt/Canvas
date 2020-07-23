@@ -56,12 +56,21 @@ const drawHands = () => {
   drawHand(date.getSeconds(), false)
 }
 
+const updateClockImage = () => {
+  snapshotImageElement.src = canvas.toDataURL()
+}
+
 const drawClock = () => {
   context.clearRect(0, 0, canvas.width, canvas.height)
+  context.save()
+  context.fillStyle = 'rgba(255,255,255,0.8)'
+  context.fillRect(0, 0, canvas.width, canvas.height)
   drawCircle()
   drawCenter()
   drawHands()
+  context.restore()
   drawNumerals()
+  updateClockImage()
 }
 
 snapshotButton.onclick = (e) => {
